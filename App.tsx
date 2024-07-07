@@ -2,8 +2,10 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { useState, useEffect } from "react";
 import api from './utils/api';
+import axios from 'axios';
 
 interface DataTypes {
+  id: string;
   nome: string;
   descricao: string;
   preco: number;
@@ -16,18 +18,24 @@ export default function App() {
   const [data, setData] = useState<DataTypes[]>([]);
 
   useEffect(() => {
-    api.get("produtos/")
+    fetch("http://192.168.0.200:8000/produtos/")
+      .then((data) => data.json())
       .then((data) => {
-        setData(data.data)
+        console.log(data)
       })
       .catch((erro) => {
-        console.error(erro);
+        console.error("erro 2 => ", erro);
       })
   }, [])
 
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>Lista</Text>
+      <FlatList
+        data={data}
+        renderItem={({item}) => <Text>{item.nome}</Text>}
+        keyExtractor={item => item.id}
+      />
       <StatusBar style="auto" />
     </View>
   );
