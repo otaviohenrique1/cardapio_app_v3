@@ -18,22 +18,34 @@ export default function App() {
   const [data, setData] = useState<DataTypes[]>([]);
 
   useEffect(() => {
-    fetch("http://192.168.0.200:8000/produtos/")
+    // fetch('https://jsonplaceholder.typicode.com/posts/1')
+    //   .then((response) => response.json())
+    //   .then((json) => console.log(json));
+    fetch("http://10.0.2.2:8000/produtos/")
       .then((data) => data.json())
       .then((data) => {
-        console.log(data)
+        // console.log(data)
+        setData(data)
       })
       .catch((erro) => {
-        console.error("erro 2 => ", erro);
+        console.error("erro => ", erro);
       })
   }, [])
 
   return (
     <View style={styles.container}>
-      <Text>Lista</Text>
+      <Text style={styles.titulo}>Lista</Text>
       <FlatList
         data={data}
-        renderItem={({item}) => <Text>{item.nome}</Text>}
+        renderItem={({ item }) => {
+          return (
+            <View style={styles.item}>
+              <Text>{item.nome}</Text>
+              <Text>{item.descricao}</Text>
+            </View>
+          );
+        }
+        }
         keyExtractor={item => item.id}
       />
       <StatusBar style="auto" />
@@ -45,7 +57,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    marginTop: 30,
+    marginEnd: 20,
+    marginHorizontal: 10,
   },
+  titulo: {
+    fontSize: 30,
+  },
+  item: {
+    borderColor: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    marginBottom: 10,
+  }
 });
