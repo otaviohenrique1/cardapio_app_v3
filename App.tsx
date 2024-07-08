@@ -34,6 +34,7 @@ export default function App() {
       <Text style={styles.titulo}>Lista</Text>
       <FlatList
         data={data}
+        style={styles.lista}
         renderItem={({ item }) => {
           return (
             <View style={styles.item}>
@@ -73,11 +74,17 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     // justifyContent: 'center',
     marginTop: 30,
-    marginEnd: 20,
-    marginHorizontal: 10,
   },
   titulo: {
     fontSize: 30,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    marginBottom: 20,
+    backgroundColor: "cadetblue"
+  },
+  lista: {
+    marginEnd: 20,
+    marginHorizontal: 10,
   },
   item: {
     borderColor: "black",
