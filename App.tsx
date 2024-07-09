@@ -1,6 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, FlatList, Image, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from "react";
+import IconEntypo from 'react-native-vector-icons/Entypo';
+import IconOcticons from 'react-native-vector-icons/Octicons';
+import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Constants from "expo-constants";
+
 // import api from './utils/api';
 // import axios from 'axios';
 
@@ -31,7 +36,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Lista</Text>
+      <View style={styles.header}>
+        <Text style={styles.header_titulo}>Cardapio</Text>
+        <TouchableOpacity>
+          <IconMaterialCommunityIcons name="cart-variant" size={40} />
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={data}
         style={styles.lista}
@@ -39,7 +49,7 @@ export default function App() {
           return (
             <View style={styles.item}>
               <Image
-                style={styles.foto}
+                style={styles.item_foto}
                 source={{ uri: item.foto }}
               />
               <View style={styles.item_conteudo}>
@@ -48,21 +58,20 @@ export default function App() {
                   <Text style={styles.item_texto}>R$ {item.preco.toString().replace(".", ",")}</Text>
                 </View>
                 <View style={styles.item_botoes}>
-                  <TouchableOpacity>
-                    <Text>Carrinho</Text>
+                  <TouchableOpacity style={styles.item_botao_adicionar}>
+                    <IconOcticons name="plus-circle" size={40} />
                   </TouchableOpacity>
                   <TouchableOpacity>
-                    <Text>Detalhes</Text>
+                    <IconEntypo name="arrow-with-circle-right" size={40} />
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           );
-        }
-        }
+        }}
         keyExtractor={item => item.id}
       />
-      <StatusBar style="auto" />
+      <StatusBar style="dark" backgroundColor='cadetblue' />
     </View>
   );
 }
@@ -73,17 +82,23 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     // alignItems: 'center',
     // justifyContent: 'center',
-    marginTop: 30,
+    marginTop: Constants.statusBarHeight,
   },
-  titulo: {
-    fontSize: 30,
+  header: {
     paddingHorizontal: 10,
-    paddingVertical: 5,
-    marginBottom: 20,
-    backgroundColor: "cadetblue"
+    // marginBottom: 20,
+    paddingVertical: 15,
+    backgroundColor: "cadetblue",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  header_titulo: {
+    fontSize: 30,
   },
   lista: {
-    marginEnd: 20,
+    // marginTop: 20,
+    // paddingBottom: 10,
     marginHorizontal: 10,
   },
   item: {
@@ -91,21 +106,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     padding: 10,
-    marginBottom: 10,
+    marginVertical: 5,
     flexDirection: 'row'
   },
-  foto: {
+  item_foto: {
     width: 100,
     height: 100,
-    marginRight: 10
+    marginRight: 10,
+    borderRadius: 5,
   },
   item_conteudo: {
     justifyContent: "space-between"
   },
   item_botoes: {
-    width: "80%",
+    width: "84%",
     flexDirection: 'row',
     justifyContent: "flex-end",
+  },
+  item_botao_adicionar: {
+    marginRight: 5,
   },
   item_texto: {
     flexWrap: 'wrap',
