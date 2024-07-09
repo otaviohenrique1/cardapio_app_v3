@@ -6,7 +6,7 @@ import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommun
 import styles from './styles';
 import DataTypes from '../../types/types';
 
-export default function HomePage() {
+export default function HomePage({ navigation }) {
   const [data, setData] = useState<DataTypes[]>([]);
 
   useEffect(() => {
@@ -28,7 +28,12 @@ export default function HomePage() {
         style={styles.lista}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity style={styles.item}>
+            <TouchableOpacity
+              style={styles.item}
+              onPress={() => navigation.navigate('Detalhes', {
+                id: item.id
+              })}
+            >
               <Image
                 style={styles.item_foto}
                 source={{ uri: item.foto }}
