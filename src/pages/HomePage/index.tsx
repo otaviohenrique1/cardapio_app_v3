@@ -4,9 +4,13 @@ import { useState, useEffect } from "react";
 import IconOcticons from 'react-native-vector-icons/Octicons';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
-import DataTypes from '../../types/types';
+import { DataTypes } from '../../types/types';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStaticParamList } from '../routes';
 
-export default function HomePage({ navigation }) {
+type Props = NativeStackScreenProps<RootStaticParamList, 'Cardapio'>;
+
+export default function HomePage({ navigation }: Props) {
   const [data, setData] = useState<DataTypes[]>([]);
 
   useEffect(() => {

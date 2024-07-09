@@ -2,7 +2,9 @@ import { StatusBar } from 'expo-status-bar';
 import { Text, View, Image, TouchableOpacity } from 'react-native';
 import { useState, useEffect } from "react";
 import styles from './styles';
-import DataTypes from '../../types/types';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { DataTypes } from '../../types/types';
+import { RootStaticParamList } from '../routes';
 
 const valoresIniciais: DataTypes = {
   id: '',
@@ -11,10 +13,12 @@ const valoresIniciais: DataTypes = {
   preco: 0.00,
   tipo: '',
   data_cadastro: new Date(),
-  foto: ''
+  foto: './assets/icon.png'
 };
 
-export default function Detalhes({ route }) {
+type Props = NativeStackScreenProps<RootStaticParamList, 'Detalhes'>;
+
+export default function Detalhes({ route }: Props) {
   const [data, setData] = useState<DataTypes>(valoresIniciais);
 
   const { id } = route.params;
