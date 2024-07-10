@@ -9,6 +9,7 @@ export interface DataTypes {
 }
 
 export interface ProdutoTypes {
+  id: number;
   nome: string;
   descricao: string;
   preco: number;
