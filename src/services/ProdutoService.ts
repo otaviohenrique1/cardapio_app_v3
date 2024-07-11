@@ -1,6 +1,5 @@
-import { ProdutoModel } from "../models/ProdutoModel";
 import { db } from '../database/database-connection';
-import { DataTypes, ProdutoTypes } from "../types/types";
+import { ProdutoTypes } from "../types/types";
 
 export function criaTabela() {
   db.transaction((transaction) => {
@@ -25,32 +24,48 @@ export async function adicionaProduto(produto: ProdutoTypes) {
   })
 }
 
-export async function atualizaProduto(produto: ProdutoTypes) {
+export async function atualizaProduto(produto: ProdutoTypes, id: number) {
   return new Promise((resolve, reject) => {
     db.transaction((transaction) => {
-      transaction.executeSql("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, foto = ? WHERE id = ?;", [produto.nome, produto.descricao, produto.preco, produto.foto, produto.id], () => {
+      transaction.executeSql("UPDATE produtos SET nome = ?, descricao = ?, preco = ?, foto = ? WHERE id = ?;", [produto.nome, produto.descricao, produto.preco, produto.foto, id], () => {
         resolve("Produto atualizado com sucesso!");
       });
     });
   })
 }
 
-export async function removeNota(produto: DataTypes) {
+export async function removeProduto(id: number) {
   return new Promise((resolve, reject) => {
     db.transaction((transaction) => {
-      transaction.executeSql("DELETE FROM produtos WHERE id = ?;", [produto.id], () => {
+      transaction.executeSql("DELETE FROM produtos WHERE id = ?;", [id], () => {
         resolve("Produto removido com sucesso!");
       });
     });
   })
 }
 
-export async function buscaNotas() {
-  return new Promise((resolve, reject) => {
+export async function buscaProdutos() {
+  return new Promise<any[]>((resolve, reject) => {
     db.transaction((transaction) => {
-      transaction.executeSql("SELECT * FROM produtos;", [], (transaction, resultado) => {
-        resolve(resultado.rows._array);
-      });
+      transaction.executeSql(
+        "SELECT * FROM produtos;",
+        [],
+        (transaction, resultado) => {
+          resolve(resultado.rows._array);
+        });
+    });
+  })
+}
+
+export async function buscaProduto(id: number) {
+  return new Promise<any>((resolve, reject) => {
+    db.transaction((transaction) => {
+      transaction.executeSql(
+        "SELECT * FROM produtos WHERE id = ?;",
+        [id],
+        (transaction, resultado) => {
+          resolve(resultado.rows._array);
+        });
     });
   })
 }

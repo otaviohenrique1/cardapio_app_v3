@@ -4,14 +4,18 @@ import { useState, useEffect } from "react";
 import IconOcticons from 'react-native-vector-icons/Octicons';
 import IconMaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import styles from './styles';
-import { DataTypes } from '../../types/types';
+import { DataTypes, ProdutoTypes } from '../../types/types';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStaticParamList } from '../routes';
+import { adicionaProduto, criaTabela } from '../../services/ProdutoService';
 
 type Props = NativeStackScreenProps<RootStaticParamList, 'Cardapio'>;
 
 export default function HomePage({ navigation }: Props) {
   const [data, setData] = useState<DataTypes[]>([]);
+  useEffect(() => {
+    criaTabela();
+  }, []);
 
   useEffect(() => {
     fetch("http://10.0.2.2:8000/produtos/")
@@ -23,7 +27,11 @@ export default function HomePage({ navigation }: Props) {
       .catch((erro) => {
         console.error("erro => ", erro);
       })
-  }, [])
+  }, []);
+
+  async function salvarProduto(produto: ProdutoTypes) {
+    await adicionaProduto(produto)
+  }
 
   return (
     <View style={styles.container}>
@@ -49,7 +57,20 @@ export default function HomePage({ navigation }: Props) {
                 </View>
                 <View style={styles.item_botoes}>
                   <TouchableOpacity style={styles.item_botao_adicionar}>
-                    <IconOcticons name="plus-circle" size={40} />
+                    <IconOcticons
+                      name="plus-circle"
+                      size={40}
+                      onPress={() => {
+                        const produto = {
+                          nome: item.nome,
+                          descricao: item.descricao,
+                          preco: item.preco,
+                          foto: item.foto,
+                        };
+                        salvarProduto(produto);
+                        // console.log(produto);
+                      }}
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
